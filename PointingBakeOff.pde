@@ -81,6 +81,13 @@ void draw()
 
   fill(255, 0, 0, 200); // set fill color to translucent red
   ellipse(mouseX, mouseY, 20, 20); //draw user cursor as a circle with a diameter of 20
+  
+  stroke(255, 0, 0, 255); // set fill color to full red
+  Rectangle target = getButtonLocation(trials.get(trialNum));
+  strokeWeight(6);
+  line(mouseX, mouseY, target.x + target.width/2, target.y+target.height/2);
+  stroke(0); // reset stroke color
+  strokeWeight(0); // reset stroke weight
 }
 
 void mousePressed() //mouse was pressed! Test to see if hit was in target!
