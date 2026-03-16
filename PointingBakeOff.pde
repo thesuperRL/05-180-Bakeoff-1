@@ -145,12 +145,12 @@ void drawButton(int i)
   // 3. Handle the Fill Color
   if (trials.get(trialNum) == i) // Is this the target?
   {
-    if (isHovering) fill(0, 200, 200); // Slightly darker cyan when hovering
+    if (isHovering) fill(0, 255, 0);   // Green when hovering
     else fill(0, 255, 255);            // Bright cyan target
   }
   else // Not the target
   {
-    if (isHovering) fill(100);         // Mid-gray when hovering
+    if (isHovering) fill(255, 0, 0);   // Red when hovering
     else fill(200);                    // Light gray normally
   }
 
