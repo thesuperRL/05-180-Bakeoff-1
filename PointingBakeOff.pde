@@ -9,7 +9,7 @@ import java.util.Collections;
 import processing.core.PApplet;
 
 //Setting up a bunch of global variables
-int margin = 200; //set the margin around the squares
+int margin = 20; //set the margin around the squares
 final int padding = 50; // padding between buttons and also their width/height
 final int buttonSize = 40; // padding between buttons and also their width/height
 ArrayList<Integer> trials = new ArrayList<Integer>(); //contains the order of buttons that activate in the user study
@@ -24,7 +24,7 @@ int numRepeats = 1; //sets the number of times each button repeats in the user s
 
 void setup()
 {
-  size(700, 700); // set the size of the window
+  size(350, 350); // set the size of the window
   //noCursor(); //hides the system cursor if you want
   noStroke(); //turn off all strokes, we're just using fills here (can change this if you want)
   textFont(createFont("Arial", 16)); //sets the font to Arial size 16
@@ -130,12 +130,34 @@ void drawButton(int i)
 {
   Rectangle bounds = getButtonLocation(i);
 
-  if (trials.get(trialNum) == i) // see if current button is the target
-    fill(0, 255, 255); // if so, fill cyan
-  else
-    fill(200); // if not, fill gray
+  // 1. Check if the mouse is currently hovering over this button
+  boolean isHovering = (mouseX > bounds.x && mouseX < bounds.x + bounds.width) && 
+                       (mouseY > bounds.y && mouseY < bounds.y + bounds.height);
 
-  rect(bounds.x, bounds.y, bounds.width, bounds.height); //draw button
+  // 2. Handle the border (Stroke)
+  if (isHovering) {
+    stroke(255);          // White border
+    strokeWeight(3);      // Make the border thick enough to see
+  } else {
+    noStroke();           // No border for non-hovered buttons
+  }
+
+  // 3. Handle the Fill Color
+  if (trials.get(trialNum) == i) // Is this the target?
+  {
+    if (isHovering) fill(0, 200, 200); // Slightly darker cyan when hovering
+    else fill(0, 255, 255);            // Bright cyan target
+  }
+  else // Not the target
+  {
+    if (isHovering) fill(100);         // Mid-gray when hovering
+    else fill(200);                    // Light gray normally
+  }
+
+  rect(bounds.x, bounds.y, bounds.width, bounds.height); 
+  
+  // Reset stroke so it doesn't affect other UI elements (like the red cursor)
+  noStroke(); 
 }
 
 void mouseMoved()
