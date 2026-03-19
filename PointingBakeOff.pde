@@ -143,8 +143,7 @@ void drawButton(int i)
 
   // 2. Handle the border (Stroke)
   if (isHovering) {
-    stroke(255);          // White border
-    strokeWeight(3);      // Make the border thick enough to see
+    noStroke();           // Avoid confusion with border
   } else {
     noStroke();           // No border for non-hovered buttons
   }
