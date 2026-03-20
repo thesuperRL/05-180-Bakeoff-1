@@ -178,12 +178,54 @@ void mouseDragged()
   //https://processing.org/reference/mouseDragged_.html
 }
 
+int getHoveredButton() {
+
+  for (int i = 0; i < 16; i++) {
+
+    Rectangle b = getButtonLocation(i);
+
+    if (mouseX > b.x && mouseX < b.x + b.width && mouseY > b.y && mouseY < b.y + b.height) {
+
+      return i;
+
+    }
+
+  }
+
+  return -1; // Mouse is not over any button
+
+}
+
 void keyPressed() 
 {
   //can use the keyboard if you wish
   //https://processing.org/reference/keyTyped_.html
   //https://processing.org/reference/keyCode.html
-  if (keyPressed == true) {
+  int currentButton = getHoveredButton();
+  
+  if (currentButton == -1) return;
+
+  int row = currentButton / 4;
+  int col = currentButton % 4;
+  int targetButton = -1;
+
+  if (keyCode == UP && row > 0) targetButton = currentButton - 4;
+  else if (keyCode == DOWN && row < 3) targetButton = currentButton + 4;
+  else if (keyCode == LEFT && col > 0) targetButton = currentButton - 1;
+  else if (keyCode == RIGHT && col < 3) targetButton = currentButton + 1;
+  else {
     mousePressed();
   }
+
+  if (targetButton != -1) {
+    Rectangle b = getButtonLocation(targetButton);
+    
+    int centerX = b.x + b.width / 2;
+    int centerY = b.y + b.height / 2;
+
+    mouseX = centerX;
+    mouseY = centerY;
+  }
+  
+  
 }
