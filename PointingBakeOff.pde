@@ -83,7 +83,7 @@ void draw()
   ellipse(mouseX, mouseY, 20, 20); //draw user cursor as a circle with a diameter of 20
 }
 
-void mousePressed() //mouse was pressed! Test to see if hit was in target!
+void registerClick()
 {
   if (trialNum >= trials.size()) //if task is over, just return
     return;
@@ -115,6 +115,11 @@ void mousePressed() //mouse was pressed! Test to see if hit was in target!
 
   //in the example code below, we can use Java Robot to move the mouse back to the middle of window
   //robot.mouseMove(width/2, (height)/2); //on click, move cursor to roughly center of window!
+}
+
+void mousePressed() //mouse was pressed! Test to see if hit was in target!
+{
+  
 }  
 
 //probably shouldn't have to edit this method
@@ -207,5 +212,5 @@ void keyPressed()
   //can use the keyboard if you wish
   //https://processing.org/reference/keyTyped_.html
   //https://processing.org/reference/keyCode.html
-  mousePressed(); 
+  registerClick(); 
 }
