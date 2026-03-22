@@ -166,56 +166,31 @@ void drawButton(int i)
   noStroke(); 
 }
 
+int findNearestButton(int mx, int my)
+{
+  double eucdist = Double.MAX_VALUE;
+  int nearest = 0;
+  for (int i = 0; i < 16; i++)
+  {
+    Rectangle bounds = getButtonLocation(i);
+    double centerxdiff = Math.abs(mx - (bounds.x + bounds.width/2));
+    double centerydiff = Math.abs(my - (bounds.y + bounds.height/2));
+    double neweuc = Math.sqrt(Math.pow(centerxdiff, 2) + Math.pow(centerydiff, 2));
+    if (neweuc < eucdist)
+    {
+      nearest = i;
+      eucdist = neweuc;
+    }
+  }
+  return nearest;
+}
+
 void mouseMoved()
 {
    //can do stuff everytime the mouse is moved (i.e., not clicked)
    //https://processing.org/reference/mouseMoved_.html
-}
-
-void mouseDragged()
-{
-  //can do stuff everytime the mouse is dragged
-  //https://processing.org/reference/mouseDragged_.html
-}
-
-int getHoveredButton() {
-
-  for (int i = 0; i < 16; i++) {
-
-    Rectangle b = getButtonLocation(i);
-
-    if (mouseX > b.x && mouseX < b.x + b.width && mouseY > b.y && mouseY < b.y + b.height) {
-
-      return i;
-
-    }
-
-  }
-
-  return -1; // Mouse is not over any button
-
-}
-
-void keyPressed() 
-{
-  //can use the keyboard if you wish
-  //https://processing.org/reference/keyTyped_.html
-  //https://processing.org/reference/keyCode.html
-  int currentButton = getHoveredButton();
-  
-  if (currentButton == -1) return;
-
-  int row = currentButton / 4;
-  int col = currentButton % 4;
-  int targetButton = -1;
-
-  if (keyCode == UP && row > 0) targetButton = currentButton - 4;
-  else if (keyCode == DOWN && row < 3) targetButton = currentButton + 4;
-  else if (keyCode == LEFT && col > 0) targetButton = currentButton - 1;
-  else if (keyCode == RIGHT && col < 3) targetButton = currentButton + 1;
-  else {
-    mousePressed();
-  }
+   
+   int targetButton = findNearestButton(mouseX, mouseY);
 
   if (targetButton != -1) {
     Rectangle b = getButtonLocation(targetButton);
@@ -226,6 +201,18 @@ void keyPressed()
     mouseX = centerX;
     mouseY = centerY;
   }
-  
-  
+}
+
+void mouseDragged()
+{
+  //can do stuff everytime the mouse is dragged
+  //https://processing.org/reference/mouseDragged_.html
+}
+
+void keyPressed() 
+{
+  //can use the keyboard if you wish
+  //https://processing.org/reference/keyTyped_.html
+  //https://processing.org/reference/keyCode.html
+  mousePressed(); 
 }
