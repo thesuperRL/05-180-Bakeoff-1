@@ -119,7 +119,7 @@ void registerClick()
 
 void mousePressed() //mouse was pressed! Test to see if hit was in target!
 {
-  
+  registerClick();
 }  
 
 //probably shouldn't have to edit this method
