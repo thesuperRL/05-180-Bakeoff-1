@@ -9,7 +9,7 @@ import java.util.Collections;
 import processing.core.PApplet;
 
 //Setting up a bunch of global variables
-int margin = 20; //set the margin around the squares
+int margin = 200; //set the margin around the squares
 final int padding = 50; // padding between buttons and also their width/height
 final int buttonSize = 40; // padding between buttons and also their width/height
 ArrayList<Integer> trials = new ArrayList<Integer>(); //contains the order of buttons that activate in the user study
@@ -24,7 +24,7 @@ int numRepeats = 1; //sets the number of times each button repeats in the user s
 
 void setup()
 {
-  size(350, 350); // set the size of the window
+  size(700, 700); // set the size of the window
   //noCursor(); //hides the system cursor if you want
   noStroke(); //turn off all strokes, we're just using fills here (can change this if you want)
   textFont(createFont("Arial", 16)); //sets the font to Arial size 16
