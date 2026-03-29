@@ -20,7 +20,13 @@ int hits = 0; //number of successful clicks
 int misses = 0; //number of missed clicks
 Robot robot; //initialized in setup 
 
-int numRepeats = 1; //sets the number of times each button repeats in the user study. 1 = each square will appear as the target once.
+//Trial related code
+int participantID = 1;
+int mouseXbegin = -1;
+int mouseYbegin = -1;
+float pasttime = 0;
+
+int numRepeats = 4; //sets the number of times each button repeats in the user study. 1 = each square will appear as the target once.
 
 void setup()
 {
@@ -81,6 +87,22 @@ void draw()
 
   fill(255, 0, 0, 200); // set fill color to translucent red
   ellipse(mouseX, mouseY, 20, 20); //draw user cursor as a circle with a diameter of 20
+  
+  // record initial user cursor
+  mouseXbegin = mouseX;
+  mouseYbegin = mouseY;
+}
+
+double eucdist(float mx, float my, float bx, float by)
+{
+  double centerxdiff = Math.abs(mx - bx);
+  double centerydiff = Math.abs(my - by);
+  return Math.sqrt(Math.pow(centerxdiff, 2) + Math.pow(centerydiff, 2));
+}
+
+float roundx(float toround, int decdigits)
+{
+  return ((float) Math.round(toround * ((float) Math.pow(10, decdigits))))/((float) Math.pow(10, decdigits));
 }
 
 void registerClick()
@@ -102,16 +124,45 @@ void registerClick()
  //check to see if mouse cursor is inside target button 
   if ((mouseX > bounds.x && mouseX < bounds.x + bounds.width) && (mouseY > bounds.y && mouseY < bounds.y + bounds.height)) // test to see if hit was within bounds
   {
-    System.out.println("HIT! " + trialNum + " " + (millis() - startTime)); // success
+    int finx = Math.round((bounds.x + bounds.width)/2);
+    int finy = Math.round((bounds.y + bounds.height)/2);
+    double ed = eucdist(mouseXbegin, mouseYbegin, finx, finy);
+    System.out.println((trialNum+1) + "," 
+                      + participantID + "," 
+                      + mouseXbegin + ","
+                      + mouseYbegin + ","
+                      + finx + ","
+                      + finy + ","
+                      + Math.round(ed) + ","
+                      + bounds.width + ","
+                      + roundx(((float) (millis() - pasttime))/1000.0, 3) + ","
+                      + "1"
+                      ); // success
     hits++; 
   } 
   else //must be a miss...
   {
-    System.out.println("MISSED! " + trialNum + " " + (millis() - startTime)); // fail
+    int finx = Math.round((bounds.x + bounds.width)/2);
+    int finy = Math.round((bounds.y + bounds.height)/2);
+    double ed = eucdist(mouseXbegin, mouseYbegin, finx, finy);
+    System.out.println((trialNum+1) + "," 
+                      + participantID + "," 
+                      + mouseXbegin + ","
+                      + mouseYbegin + ","
+                      + finx + ","
+                      + finy + ","
+                      + Math.round(ed) + ","
+                      + bounds.width + ","
+                      + roundx(((float) (millis() - pasttime))/1000.0, 3) + ","
+                      + "0"
+                      ); // failed
     misses++;
   }
 
   trialNum++; //doesn't matter if user hit or missed, we move onto next trial
+  mouseXbegin = mouseX;
+  mouseYbegin = mouseY;
+  pasttime = millis();
 
   //in the example code below, we can use Java Robot to move the mouse back to the middle of window
   //robot.mouseMove(width/2, (height)/2); //on click, move cursor to roughly center of window!
