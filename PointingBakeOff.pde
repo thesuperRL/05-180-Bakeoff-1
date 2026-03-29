@@ -24,7 +24,7 @@ Robot robot; //initialized in setup
 int participantID = 1;
 int mouseXbegin = -1;
 int mouseYbegin = -1;
-float pasttime = 0;
+float pasttime = -1;
 
 int numRepeats = 20; //sets the number of times each button repeats in the user study. 1 = each square will appear as the target once.
 
@@ -120,6 +120,11 @@ void registerClick()
   }
 
   Rectangle bounds = getButtonLocation(trials.get(trialNum));
+  
+  if (pasttime == -1f)
+  {
+    pasttime = millis();
+  }
 
  //check to see if mouse cursor is inside target button 
   if ((mouseX > bounds.x && mouseX < bounds.x + bounds.width) && (mouseY > bounds.y && mouseY < bounds.y + bounds.height)) // test to see if hit was within bounds
