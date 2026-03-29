@@ -26,7 +26,7 @@ int mouseXbegin = -1;
 int mouseYbegin = -1;
 float pasttime = 0;
 
-int numRepeats = 4; //sets the number of times each button repeats in the user study. 1 = each square will appear as the target once.
+int numRepeats = 20; //sets the number of times each button repeats in the user study. 1 = each square will appear as the target once.
 
 void setup()
 {
